@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const client = axios.create({
-  baseURL: `https://api.outsidein.dev/${process.env.REACT_APP_API_KEY}`,
+  baseURL: `https://api.outsidein.dev/${process.env.REACT_APP_API_KEY}/`,
 });
 
 const api = {
