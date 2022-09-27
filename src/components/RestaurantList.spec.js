@@ -30,6 +30,15 @@ describe('RestaurantList', () => {
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
   });
 
+  describe('when loading fails', () => {
+    it('displays the error message', () => {
+      renderComponent({loadError: true});
+      expect(
+        screen.getByText('Restaurants could not be loaded.'),
+      ).toBeInTheDocument();
+    });
+  });
+
   describe('When loading succeeds', () => {
     it('displays the restaurants', () => {
       renderComponent();
@@ -40,6 +49,13 @@ describe('RestaurantList', () => {
     it('does not display the loading indicator while not loading', () => {
       renderComponent();
       expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    });
+
+    it('does not display the error message', () => {
+      renderComponent();
+      expect(
+        screen.queryByText('Restaurants could not be loaded.'),
+      ).not.toBeInTheDocument();
     });
   });
 });
