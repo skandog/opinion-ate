@@ -53,24 +53,48 @@ describe('restaurants', () => {
       });
     });
 
-    describe('while loading', () => {
-      it('sets a loading flag', () => {
+    describe('when loading fails', () => {
+      let store;
+
+      beforeEach(() => {
         const api = {
-          loadRestaurants: () => new Promise(() => {}),
+          loadRestaurants: () => Promise.reject(),
         };
 
         const initialState = {};
 
-        const store = createStore(
+        store = createStore(
           restaurantsReducer,
           initialState,
           applyMiddleware(thunk.withExtraArgument(api)),
         );
 
-        store.dispatch(loadRestaurants());
-
-        expect(store.getState().loading).toEqual(true);
+        return store.dispatch(loadRestaurants());
       });
+
+      it('sets an error flag', () => {
+        expect(store.getState().loadError).toEqual(true);
+      });
+    });
+  });
+
+  describe('while loading', () => {
+    it('sets a loading flag', () => {
+      const api = {
+        loadRestaurants: () => new Promise(() => {}),
+      };
+
+      const initialState = {};
+
+      const store = createStore(
+        restaurantsReducer,
+        initialState,
+        applyMiddleware(thunk.withExtraArgument(api)),
+      );
+
+      store.dispatch(loadRestaurants());
+
+      expect(store.getState().loading).toEqual(true);
     });
   });
 });
