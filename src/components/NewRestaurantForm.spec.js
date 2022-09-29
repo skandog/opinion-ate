@@ -6,6 +6,7 @@ import {NewRestaurantForm} from './NewRestaurantForm';
 
 describe('NewRestaurantForm', () => {
   const restaurantName = 'Sushi Place';
+  const requiredError = 'Name is required';
 
   let createRestaurant;
 
@@ -13,6 +14,13 @@ describe('NewRestaurantForm', () => {
     createRestaurant = jest.fn().mockName('createRestaurant');
     render(<NewRestaurantForm createRestaurant={createRestaurant} />);
   }
+
+  describe('initially', () => {
+    it('does not display a validation error', () => {
+      renderComponent();
+      expect(screen.queryByText(requiredError)).not.toBeInTheDocument();
+    });
+  });
 
   describe('when filled in', () => {
     async function fillInForm() {
@@ -35,6 +43,26 @@ describe('NewRestaurantForm', () => {
     it('clears the name', async () => {
       await fillInForm();
       expect(screen.getByPlaceholderText('Add Restaurant').value).toEqual('');
+    });
+
+    it('does not display a validation error', async () => {
+      await fillInForm();
+      expect(screen.queryByText(requiredError)).not.toBeInTheDocument();
+    });
+
+    describe('when empty', () => {
+      async function submitEmptyForm() {
+        renderComponent();
+
+        userEvent.click(screen.getByText('Add'));
+
+        return act(flushPromises);
+      }
+
+      it('displays a validation error', async () => {
+        await submitEmptyForm();
+        expect(screen.getByText(requiredError)).toBeInTheDocument();
+      });
     });
   });
 });
