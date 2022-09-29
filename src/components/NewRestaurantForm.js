@@ -14,17 +14,13 @@ export function NewRestaurantForm({createRestaurant}) {
     if (name) {
       setValidationError(false);
       setServerError(false);
-      console.log('cleared server error');
       try {
         await createRestaurant(name);
         setName('');
-        console.log('succeeded');
       } catch {
-        console.log('set server error');
         setServerError(true);
       }
     } else {
-      console.log('invalid');
       setValidationError(true);
     }
   }
