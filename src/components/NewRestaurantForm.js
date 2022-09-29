@@ -23,6 +23,7 @@ export function NewRestaurantForm({createRestaurant}) {
         setServerError(true);
       }
     } else {
+      console.log('invalid');
       setValidationError(true);
     }
     setName('');

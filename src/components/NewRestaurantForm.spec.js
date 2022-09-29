@@ -134,6 +134,8 @@ describe('NewRestaurantForm', () => {
         restaurantName,
       );
       userEvent.click(screen.getByText('Add'));
+
+      await act(flushPromises);
       userEvent.click(screen.getByText('Add'));
 
       return act(flushPromises);
