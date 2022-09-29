@@ -74,6 +74,12 @@ describe('NewRestaurantForm', () => {
         await submitEmptyForm();
         expect(createRestaurant).not.toHaveBeenCalled();
       });
+
+      it('does not display a server error', async () => {
+        await fillInForm();
+        expect(screen.queryByText(serverError)).not.toBeInTheDocument();
+      });
+
       describe('when correcting a validation error', () => {
         async function fixValidationError() {
           renderComponent();
